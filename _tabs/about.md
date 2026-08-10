@@ -4,23 +4,21 @@ icon: fas fa-info-circle
 order: 4
 ---
 
-Hi, I'm **Theo Estoup Ruiz** — I work on **applied cryptography and data security**.
+**Hi, I'm Theo!**
 
-My main research is on **searchable symmetric encryption (SSE)** and defending it against
-leakage-abuse attacks like keyword recovery. I'm also interested in blockchain, fintech,
-data science, and the mathematics underneath it all — and I play **CTFs** for fun.
+I work on applied cryptography and data security.
+
+Currently, I'm doing research on **searchable symmetric encryption (SSE)** and defending it against
+leakage-abuse attacks. I'm also interested in blockchain, fintech,
+data science, and the mathematics underneath it all.
 
 ## Interests
 
-- 🔐 Cryptography & searchable encryption
-- 🛡️ Cybersecurity & data privacy
-- ⛓️ Blockchain & fintech
-- 📊 Data science & mathematics
+- Cryptography
+- Blockchain & decentralization
+- Fintech
+- Data science & mathematics
 
-## Elsewhere
-
-- **GitHub:** [github.com/testoupr](https://github.com/testoupr)
-- **Email:** use the ✉️ button in the sidebar
-
-> This is placeholder copy — edit `_tabs/about.md`{: .filepath } to make it yours.
-{: .prompt-tip }
+```markdown
+![Image of Theo](assets/img/posts/about/about-image-no-background.png){: w="500" }
+```

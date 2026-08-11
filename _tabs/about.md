@@ -10,14 +10,14 @@ I work on **applied cryptography and data security** — mostly how encrypted sy
 information, and how to secure them. I'm also into blockchain, fintech, data science, and the
 mathematics underneath it all.
 
-> **Currently:** researching **searchable symmetric encryption (SSE)** and defending it
+> **Currently** researching **searchable symmetric encryption (SSE)** and defending it
 > against leakage-abuse (keyword-recovery) attacks.
 {: .prompt-tip }
 
 ## Education
 
 I'm a **Computer Engineering** student at the **University of British Columbia (UBC)** in
-Vancouver, with a minor in **Honours Mathematics**. I'm a member of UBC's **PETs
+Vancouver, pursuing a minor in **Honours Mathematics**. Right now, I'm working at UBC's **PETs
 (Privacy-Enhancing Technologies) lab**, where I research defences for searchable encryption
 against leakage-abuse attacks.
 
@@ -28,6 +28,9 @@ against leakage-abuse attacks.
 - Fintech
 - Data science & mathematics
 - Agritech
+
+## Outside the lab
+When 
 
 ![Image of Theo](assets/img/posts/about/about-image-no-background.png){: w="500" }
 _This is me!_

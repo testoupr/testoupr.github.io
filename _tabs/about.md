@@ -18,6 +18,7 @@ data science, and the mathematics underneath it all.
 - Blockchain & decentralization
 - Fintech
 - Data science & mathematics
+- Agritech
 
 ![Image of Theo](assets/img/posts/about/about-image-no-background.png){: w="500" }
 _This is me!_

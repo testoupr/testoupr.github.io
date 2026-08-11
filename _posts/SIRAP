@@ -1,0 +1,56 @@
+---
+title: "SIRAP"
+date: 2026-08-10 12:00:00 +0000
+categories: [Papers, Security]   # e.g. [Projects, Security] / [Projects, Web]
+tags: [python, research, ]         # lowercase; used for the tag cloud
+description: Scheme-Independent Reduction of Access Pattern leakage reduces the usable co-occurrence information for keyword-assignment attacks.
+# image:                          # hero image shown on the card & at the top
+#   path: /assets/img/projects/<slug>/cover.png
+#   alt: Project screenshot
+# pin: true                       # pin your best projects to the home page
+# math: false
+# mermaid: true                   # handy for architecture diagrams
+---
+
+> **Status:** Active · **Role:** Solo · **Timeline:** Nov 2026
+{: .prompt-info }
+
+## Overview
+
+Searchable Symmetric Encryption (SSE) allows a client to securely store an encrypted database on a server while retaining the ability to issue keyword queries. In a typical SSE scheme, the client encrypts each document, computes an encrypted search index, and uploads both to the server. To retrieve documents matching a particular keyword, the client sends a search token derived from the keyword; the server then performs a lookup against the search index and returns all document IDs matching the token.
+Although the underlying keywords and document contents are never revealed to the server in this scheme, the _access pattern_—the binary vector returned by passing a token through the search index—is revealed. This paper proposes a universal data preprocessing step that reduces data dependencies and defends against attacks that rely on this leakage.
+    
+## Links
+
+- **Source:** [github.com/testoupr/<repo>](https://github.com/testoupr/<repo>)
+- **Paper / writeup:** [PDF](#)
+
+## Tech Stack
+
+| Layer | Tools |
+|---|---|
+| Language | Python 3.12 |
+| Libraries | NumPy|
+| Infra | Docker, GitHub Actions |
+
+## How It Works
+
+Explain the approach. A diagram helps — with `mermaid: true` in the front matter you can write:
+
+```mermaid
+flowchart LR
+    A[Input] --> B[Processing]
+    B --> C[Output]
+```
+
+## Highlights / Results
+
+What you're proud of — benchmarks, a tricky problem solved, a screenshot.
+
+![Screenshot](/assets/img/projects/<slug>/demo.png){: w="700" }
+_What the screenshot shows._
+
+## What's Next
+
+- [ ] Planned item one
+- [ ] Planned item two

@@ -30,7 +30,9 @@ against leakage-abuse attacks.
 - Agritech
 
 # Outside the lab
-When I'm not in the lab, 
+When I'm not in the lab, I love to travel, play soccer, and learn languages.
+
+
 
 ![Image of Theo](assets/img/posts/about/about-image-no-background.png){: w="500" }
 _This is me!_

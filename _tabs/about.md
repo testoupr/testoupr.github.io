@@ -29,8 +29,8 @@ against leakage-abuse attacks.
 - Data science & mathematics
 - Agritech
 
-## Outside the lab
-When 
+# Outside the lab
+When I'm not in the lab, 
 
 ![Image of Theo](assets/img/posts/about/about-image-no-background.png){: w="500" }
 _This is me!_

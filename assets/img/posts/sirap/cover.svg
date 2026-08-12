@@ -9,5 +9,5 @@
   <text x="80" y="300" font-family="Segoe UI, Helvetica, Arial, sans-serif"
         font-size="92" font-weight="800" fill="#ffffff">SIRAP</text>
   <text x="82" y="380" font-family="Segoe UI, Helvetica, Arial, sans-serif"
-        font-size="34" fill="#c7d2fe">Reducing access-pattern leakage in searchable encryption</text>
+        font-size="34" fill="#c7d2fe">Scheme-Independent Reduction of Access Pattern</text>
 </svg>

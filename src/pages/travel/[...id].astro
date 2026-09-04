@@ -1,0 +1,54 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const trips = await getCollection("trips");
+  return trips.map((t) => ({ params: { id: t.id }, props: { entry: t } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, city, country, date, description } = entry.data;
+const dateStr = date
+  ? date.toLocaleDateString("en-US", { year: "numeric", month: "long" })
+  : null;
+---
+
+<Base title={`${title} — Theo Estoup Ruiz`} description={description}>
+  <article class="trip">
+    <a class="back" href="/travel">← Travel</a>
+    <h1>{title}</h1>
+    <div class="meta">
+      {country && <span>{city}, {country}</span>}
+      {dateStr && <span>{dateStr}</span>}
+    </div>
+    <Content />
+  </article>
+
+  <style>
+    .back {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border: none;
+    }
+    .trip h1 {
+      margin: 0.6rem 0 0.3rem;
+    }
+    .meta {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+    .meta span:not(:last-child)::after {
+      content: "·";
+      margin-left: 0.75rem;
+      color: var(--border);
+    }
+  </style>
+</Base>

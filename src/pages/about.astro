@@ -1,0 +1,60 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="About — Theo Estoup Ruiz">
+  <article class="about">
+    <h1>Hi, I'm Theo!</h1>
+
+    <p>
+      I work on <strong>applied cryptography and data security</strong> — mostly
+      how encrypted systems leak information, and how to secure them. I'm also
+      into blockchain, fintech, data science, and the mathematics underneath it
+      all.
+    </p>
+
+    <aside class="callout">
+      <span class="mono-label">Currently</span>
+      <p>
+        Researching <strong>searchable symmetric encryption (SSE)</strong> and
+        defending it against leakage-abuse (keyword-recovery) attacks.
+      </p>
+    </aside>
+
+    <h2>Education</h2>
+    <p>
+      I'm a <strong>Computer Engineering</strong> student at the
+      <strong>University of British Columbia (UBC)</strong> in Vancouver,
+      pursuing a minor in <strong>Honours Mathematics</strong>. Right now, I'm
+      working at UBC's <strong>PETs (Privacy-Enhancing Technologies) lab</strong>,
+      where I research defences for searchable encryption against leakage-abuse
+      attacks.
+    </p>
+
+    <h2>Interests</h2>
+    <ul>
+      <li>Cryptography</li>
+      <li>Blockchain &amp; decentralization</li>
+      <li>Fintech</li>
+      <li>Data science &amp; mathematics</li>
+      <li>Agritech</li>
+    </ul>
+
+    <h2>Outside the lab</h2>
+    <p>When I'm not in the lab, I love to travel, play soccer, and learn languages.</p>
+  </article>
+
+  <style>
+    .callout {
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 0.9rem 1.1rem;
+      margin: 1.5rem 0;
+      background: var(--bg-subtle);
+    }
+    .callout p {
+      margin: 0.35rem 0 0;
+    }
+  </style>
+</Base>

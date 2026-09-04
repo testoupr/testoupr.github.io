@@ -1,0 +1,80 @@
+---
+import Base from "../layouts/Base.astro";
+import AsciiPortrait from "../components/AsciiPortrait.astro";
+import ProjectTimeline from "../components/ProjectTimeline.astro";
+---
+
+<Base>
+  <section class="hero">
+    <div class="intro">
+      <h1>Theo Estoup Ruiz</h1>
+      <p class="tagline">Applied cryptography &amp; data security research.</p>
+    </div>
+    <div class="art">
+      <AsciiPortrait size={300} />
+    </div>
+  </section>
+
+  <nav class="rooms">
+    <a href="/writing"><span class="mono-label">01</span><span class="r">Writing</span></a>
+    <a href="/projects"><span class="mono-label">02</span><span class="r">Projects</span></a>
+    <a href="/about"><span class="mono-label">03</span><span class="r">About</span></a>
+  </nav>
+
+  <ProjectTimeline heading="Projects" />
+
+  <style>
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin: 1.5rem 0 3rem;
+    }
+    .intro h1 {
+      margin: 0 0 0.4rem;
+      font-size: 2.6rem;
+    }
+    .tagline {
+      margin: 0;
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 22ch;
+    }
+    .art {
+      flex: none;
+    }
+    .rooms {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+    }
+    .rooms a {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      padding: 1.1rem 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--heading);
+    }
+    .rooms a:hover {
+      border-color: var(--accent);
+    }
+    .rooms .r {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    @media (max-width: 34rem) {
+      .rooms {
+        grid-template-columns: 1fr;
+      }
+      .intro h1 {
+        font-size: 2.1rem;
+      }
+    }
+  </style>
+</Base>

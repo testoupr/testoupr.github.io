@@ -1,0 +1,129 @@
+---
+import { getCollection } from "astro:content";
+
+interface Props {
+  heading?: string;
+}
+const { heading } = Astro.props;
+
+const projects = (await getCollection("projects"))
+  .filter((p) => !p.data.draft)
+  .sort(
+    (a, b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0)
+  );
+
+const monthYear = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "short" });
+
+function period(data: { date?: Date; endDate?: Date; status?: string }): string {
+  if (!data.date) return "";
+  const start = monthYear(data.date);
+  if (data.endDate) return `${start} – ${monthYear(data.endDate)}`;
+  if (data.status && data.status.toLowerCase() === "active")
+    return `${start} – Present`;
+  return start;
+}
+---
+
+<section class="timeline-block">
+  {heading && <h2 class="heading">{heading}</h2>}
+
+  {
+    projects.length === 0 ? (
+      <p class="empty">Nothing here yet.</p>
+    ) : (
+      <ol class="timeline">
+        {projects.map((p) => (
+          <li>
+            <span class="dot" aria-hidden="true" />
+            <div class="entry">
+              <div class="when mono-label">{period(p.data)}</div>
+              <div class="head">
+                <a href={`/projects/${p.id}`} class="title">
+                  {p.data.title}
+                </a>
+                {p.data.status && <span class="status">{p.data.status}</span>}
+              </div>
+              {p.data.description && <p class="desc">{p.data.description}</p>}
+            </div>
+          </li>
+        ))}
+      </ol>
+    )
+  }
+</section>
+
+<style>
+  .heading {
+    margin-bottom: 0.5rem;
+  }
+  .timeline {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    position: relative;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: var(--border);
+  }
+  .timeline li {
+    position: relative;
+    padding: 0 0 2.2rem 2rem;
+  }
+  .timeline li:last-child {
+    padding-bottom: 0;
+  }
+  .dot {
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 3px solid var(--accent);
+    z-index: 1;
+  }
+  .when {
+    margin-bottom: 0.25rem;
+  }
+  .head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+  }
+  .title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--heading);
+    border: none;
+  }
+  .title:hover {
+    color: var(--link);
+  }
+  .status {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-ink);
+    background: var(--accent);
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+  }
+  .desc {
+    margin: 0.35rem 0 0;
+    color: var(--text-muted);
+  }
+  .empty {
+    color: var(--text-muted);
+    margin-top: 1.5rem;
+  }
+</style>

@@ -1,0 +1,127 @@
+---
+import Base from "../layouts/Base.astro";
+import WorldMap from "../components/WorldMap.astro";
+import { getCollection } from "astro:content";
+
+const trips = (await getCollection("trips"))
+  .filter((t) => !t.data.draft)
+  .sort((a, b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0));
+---
+
+<Base title="Travel — Theo Estoup Ruiz" wide>
+  <h1>Travel</h1>
+  <p class="hint mono-label">Select a city to highlight its trip.</p>
+
+  <WorldMap />
+
+  {
+    trips.length === 0 ? (
+      <p class="empty">Nothing here yet.</p>
+    ) : (
+      <ul class="trips">
+        {trips.map((t) => (
+          <li class="trip-card" data-trip={t.id} id={`card-${t.id}`}>
+            <div class="meta">
+              <span class="city">{t.data.city}</span>
+              {t.data.country && <span class="country">{t.data.country}</span>}
+              {t.data.date && (
+                <span class="date">
+                  {t.data.date.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                  })}
+                </span>
+              )}
+            </div>
+            {t.data.description && <p class="desc">{t.data.description}</p>}
+            <a class="open" href={`/travel/${t.id}`}>
+              Read →
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
+  <style>
+    .hint {
+      margin: 0 0 1.2rem;
+    }
+    .trips {
+      list-style: none;
+      padding: 0;
+      margin: 2rem 0 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+      gap: 1rem;
+    }
+    .trip-card {
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+      transition: border-color 0.15s ease, background 0.15s ease;
+      scroll-margin-top: 5rem;
+    }
+    .trip-card.active {
+      border-color: var(--accent);
+      border-left-color: var(--accent);
+      background: var(--bg-subtle);
+    }
+    .meta {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .city {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--heading);
+    }
+    .country,
+    .date {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+    }
+    .desc {
+      margin: 0.5rem 0 0.6rem;
+      color: var(--text-muted);
+    }
+    .open {
+      font-size: 0.85rem;
+      border: none;
+    }
+    .empty {
+      color: var(--text-muted);
+    }
+  </style>
+
+  <script>
+    const setActive = (id: string) => {
+      document
+        .querySelectorAll<HTMLElement>(".bubble, .trip-card")
+        .forEach((el) =>
+          el.classList.toggle("active", el.dataset.trip === id)
+        );
+      document
+        .querySelector<HTMLElement>(`.trip-card[data-trip="${id}"]`)
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+    };
+
+    document.querySelectorAll<HTMLElement>(".bubble").forEach((b) => {
+      const id = b.dataset.trip;
+      if (!id) return;
+      b.addEventListener("click", () => setActive(id));
+      b.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setActive(id);
+        }
+      });
+    });
+  </script>
+</Base>

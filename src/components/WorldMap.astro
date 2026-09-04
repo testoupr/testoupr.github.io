@@ -1,0 +1,275 @@
+---
+import { getCollection } from "astro:content";
+import { geoEqualEarth, geoPath } from "d3-geo";
+import { feature } from "topojson-client";
+import worldData from "world-atlas/countries-110m.json";
+
+const trips = (await getCollection("trips")).filter((t) => !t.data.draft);
+
+const W = 900;
+const H = 450;
+
+// world-atlas ships a TopoJSON; convert the `countries` object to GeoJSON.
+const world: any = worldData;
+const land: any = feature(world, world.objects.countries);
+
+const projection = geoEqualEarth().fitSize([W, H], land);
+const toPath = geoPath(projection);
+
+const countries: string[] = land.features
+  .map((f: any) => toPath(f))
+  .filter((d: string | null): d is string => Boolean(d));
+
+const markers = trips
+  .map((t) => {
+    const p = projection([t.data.lon, t.data.lat]);
+    if (!p) return null;
+    return {
+      id: t.id,
+      city: t.data.city,
+      country: t.data.country ?? "",
+      date: t.data.date
+        ? t.data.date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+          })
+        : "",
+      desc: t.data.description ?? "",
+      image: t.data.image ?? "",
+      x: p[0],
+      y: p[1],
+    };
+  })
+  .filter((m): m is NonNullable<typeof m> => m !== null);
+---
+
+<div class="mapwrap">
+  <div class="mapscroll">
+    <svg
+      viewBox={`0 0 ${W} ${H}`}
+      role="img"
+      aria-label="Map of places"
+      class="worldmap"
+    >
+      <g class="land">
+        {countries.map((d) => <path d={d} />)}
+      </g>
+      <g class="markers">
+        {
+          markers.map((m) => (
+            <g
+              class="bubble"
+              data-trip={m.id}
+              data-city={m.city}
+              data-country={m.country}
+              data-date={m.date}
+              data-desc={m.desc}
+              data-img={m.image}
+              transform={`translate(${m.x},${m.y})`}
+              tabindex="0"
+              role="button"
+              aria-label={m.city}
+            >
+              <circle class="halo" r="12" />
+              <circle class="pin" r="5.5" />
+              <title>{m.city}</title>
+            </g>
+          ))
+        }
+      </g>
+    </svg>
+  </div>
+
+  <div class="map-tip" hidden aria-hidden="true">
+    <img class="tip-img" alt="" hidden />
+    <div class="tip-scrim">
+      <span class="tip-cover-city"></span>
+      <span class="tip-meta"></span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .mapwrap {
+    position: relative;
+    width: 100%;
+  }
+  .mapscroll {
+    width: 100%;
+    overflow-x: auto;
+  }
+  .worldmap {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .land path {
+    fill: var(--bg-subtle);
+    stroke: var(--border);
+    stroke-width: 0.6;
+  }
+  .bubble {
+    cursor: pointer;
+    outline: none;
+  }
+  .bubble .pin {
+    fill: var(--accent);
+    stroke: var(--bg);
+    stroke-width: 1.5;
+    transition: r 0.15s ease;
+  }
+  .bubble .halo {
+    fill: var(--accent);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+  .bubble:hover .halo,
+  .bubble:focus-visible .halo,
+  .bubble.active .halo {
+    opacity: 0.22;
+  }
+  .bubble:hover .pin,
+  .bubble:focus-visible .pin,
+  .bubble.active .pin {
+    r: 7;
+  }
+  .bubble.active .pin {
+    stroke: var(--accent-ink);
+  }
+
+  /* Floating preview — a round photo bubble */
+  .map-tip {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 5;
+    width: 9.5rem;
+    height: 9.5rem;
+    border-radius: 50%;
+    background: linear-gradient(
+      135deg,
+      var(--accent) 0%,
+      color-mix(in srgb, var(--accent) 55%, var(--heading)) 100%
+    );
+    border: 3px solid var(--bg);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+    overflow: hidden;
+    pointer-events: none;
+    transform-origin: bottom center;
+    transform: translate(-50%, calc(-100% - 16px)) scale(0.7);
+    opacity: 0;
+    transition:
+      opacity 0.14s ease,
+      transform 0.28s cubic-bezier(0.34, 1.7, 0.5, 1);
+  }
+  .map-tip.show {
+    opacity: 1;
+    transform: translate(-50%, calc(-100% - 16px)) scale(1);
+  }
+  .map-tip[hidden] {
+    display: none;
+  }
+  /* little tail pointing down at the pin */
+  .map-tip::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -7px;
+    width: 14px;
+    height: 14px;
+    background: var(--bg);
+    border-radius: 0 0 3px 0;
+    transform: translateX(-50%) rotate(45deg);
+    z-index: 2;
+  }
+
+  .tip-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .tip-img[hidden] {
+    display: none;
+  }
+
+  /* name + date over a soft scrim at the bottom of the bubble */
+  .tip-scrim {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 1.4rem 0.7rem 0.7rem;
+    text-align: center;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+  .tip-cover-city {
+    display: block;
+    font-weight: 800;
+    font-size: 1.05rem;
+    line-height: 1.15;
+    color: #fff;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+  }
+  .tip-meta {
+    display: block;
+    margin-top: 0.1rem;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .tip-meta:empty {
+    display: none;
+  }
+</style>
+
+<script>
+  const wrap = document.querySelector<HTMLElement>(".mapwrap");
+  const tip = document.querySelector<HTMLElement>(".map-tip");
+  if (wrap && tip) {
+    const city = tip.querySelector<HTMLElement>(".tip-cover-city")!;
+    const img = tip.querySelector<HTMLImageElement>(".tip-img")!;
+    const meta = tip.querySelector<HTMLElement>(".tip-meta")!;
+
+    const show = (b: HTMLElement) => {
+      city.textContent = b.dataset.city ?? "";
+      const src = b.dataset.img ?? "";
+      if (src) {
+        img.src = src;
+        img.alt = b.dataset.city ?? "";
+        img.hidden = false;
+      } else {
+        img.removeAttribute("src");
+        img.hidden = true; // fall back to the gradient bubble
+      }
+      const bits = [b.dataset.country, b.dataset.date].filter(Boolean);
+      meta.textContent = bits.join(" · ");
+
+      const br = b.getBoundingClientRect();
+      const wr = wrap.getBoundingClientRect();
+      tip.hidden = false;
+      tip.style.left = `${br.left + br.width / 2 - wr.left}px`;
+      tip.style.top = `${br.top - wr.top}px`;
+      // next frame so the transition runs
+      requestAnimationFrame(() => tip.classList.add("show"));
+    };
+
+    const hide = () => {
+      tip.classList.remove("show");
+      tip.hidden = true;
+    };
+
+    wrap.querySelectorAll<HTMLElement>(".bubble").forEach((b) => {
+      b.addEventListener("mouseenter", () => show(b));
+      b.addEventListener("mouseleave", hide);
+      b.addEventListener("focus", () => show(b));
+      b.addEventListener("blur", hide);
+    });
+  }
+</script>

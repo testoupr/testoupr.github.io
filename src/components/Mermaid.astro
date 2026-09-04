@@ -1,0 +1,31 @@
+---
+interface Props {
+  chart: string;
+}
+const { chart } = Astro.props;
+---
+
+<pre class="mermaid">{chart}</pre>
+
+<style>
+  pre.mermaid {
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 1.4rem 0;
+    text-align: center;
+    overflow-x: auto;
+  }
+</style>
+
+<script>
+  import mermaid from "mermaid";
+  const dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: dark ? "dark" : "default",
+    securityLevel: "strict",
+    fontFamily: "inherit",
+  });
+  mermaid.run({ querySelector: "pre.mermaid" });
+</script>

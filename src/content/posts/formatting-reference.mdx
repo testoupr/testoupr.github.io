@@ -1,0 +1,91 @@
+---
+# --- Frontmatter: metadata between the --- fences. Required fields marked (*).
+title: "Formatting reference"          # (*) shows as the post's <h1> and browser tab
+description: "A cheat-sheet post showing every formatting feature the site supports."
+date: 2026-09-03                        # (*) YYYY-MM-DD — sorts newest-first on /writing
+tags: ["meta", "reference"]            # optional; free-form labels
+draft: true                            # true = hidden from the /writing list (delete or set false to publish)
+---
+
+import Mermaid from "../../components/Mermaid.astro";
+
+{/* This is an MDX comment — it never renders. Use .mdx (not .md) whenever you
+    want a component like <Mermaid/>. The import line just above is what makes
+    <Mermaid/> available in this file. Plain prose works the same in .md too. */}
+
+Everything below is standard Markdown unless noted. Open this file
+(`src/content/posts/formatting-reference.mdx`) side-by-side with the rendered
+page to see how each piece maps.
+
+## Headings & text
+
+Use `##` for section headings and `###` for subsections (the title above is the
+only `#`/h1). Inline you get **bold**, _italic_, `inline code`, and
+[links](https://testoupr.github.io). Separate paragraphs with a blank line.
+
+> Blockquotes use a leading `>`. Good for pull-quotes or noting an assumption.
+
+## Lists
+
+- Bullet lists use `-`
+- Nest by indenting two spaces
+  - like this
+1. Numbered lists use `1.` `2.` …
+2. …and render in order
+
+## Code
+
+Fenced blocks get syntax highlighting (Shiki, light/dark aware). Put the
+language after the opening fence:
+
+```python
+def cooccurrence(matrix):
+    # keyword co-occurrence = D^T D
+    return matrix.T @ matrix
+```
+
+## Math
+
+Inline math with single dollars: the leakage is a vector $a \in \{0,1\}^n$.
+Display math with double dollars on their own lines:
+
+$$
+\mathrm{Co}(D) = D^\top D, \qquad D \in \{0,1\}^{n \times m}.
+$$
+
+## Tables
+
+| Field         | Required | Notes                          |
+| ------------- | :------: | ------------------------------ |
+| `title`       |    yes   | Post heading + tab title       |
+| `date`        |    yes   | `YYYY-MM-DD`, sorts the list   |
+| `description` |    no    | Used for SEO / link previews   |
+| `draft`       |    no    | `true` hides it from `/writing`|
+
+## Diagrams
+
+Mermaid diagrams need the component imported at the top of the file
+(`import Mermaid from "../../components/Mermaid.astro";` — see `sirap.mdx`),
+then:
+
+<Mermaid chart={`flowchart LR
+  A[Write .mdx in src/content/posts/] --> B[Push to main]
+  B --> C[GitHub Actions builds]
+  C --> D[Live on testoupr.github.io]
+`} />
+
+## Images
+
+Put files under `public/` and reference them from the site root. For example an
+image at `public/trips/headshot.jpeg` is written as:
+
+```md
+![Alt text describing the image](/trips/headshot.jpeg)
+```
+
+---
+
+**To publish a real post:** copy this file to `src/content/posts/my-post.md`
+(plain Markdown is fine — drop the `.mdx`/`<Mermaid>` bits if you don't need
+diagrams), set `draft: false`, edit the frontmatter, write, and push to `main`.
+It appears at `/writing/my-post`.

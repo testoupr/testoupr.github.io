@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-hkbrpulz><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="My Solidity exploits for OpenZeppelin's Ethernaut wargame, from Coin Flip up through GatekeeperOne."><title>Ethernaut — Theo Estoup Ruiz</title><link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;◈&lt;/text&gt;&lt;/svg&gt;"><!-- GoatCounter analytics (cookieless; auto-skips localhost) --><script data-goatcounter="https://hermindo.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script><link rel="stylesheet" href="/_astro/Base.CoZSdVz5.css"><style>.back[data-astro-cid-77okxf7y]{font-family:var(--font-mono);color:var(--text-muted);border:none;font-size:.8rem}.ctf[data-astro-cid-77okxf7y] h1[data-astro-cid-77okxf7y]{margin:.6rem 0 .4rem}.meta[data-astro-cid-77okxf7y]{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);flex-wrap:wrap;gap:.75rem;margin-bottom:2rem;font-size:.78rem;display:flex}.meta[data-astro-cid-77okxf7y] span[data-astro-cid-77okxf7y]:not(:last-child):after{content:"·";color:var(--border);margin-left:.75rem}
+</style></head><body data-astro-cid-hkbrpulz><header class="site-header" data-astro-cid-hkbrpulz><div class="wrap " data-astro-cid-hkbrpulz><div class="bar" data-astro-cid-hkbrpulz><a class="brand" href="/" data-astro-cid-hkbrpulz>Theo&nbsp;Estoup&nbsp;Ruiz</a><nav class="nav" data-astro-cid-hkbrpulz><a href="/writing" class data-astro-cid-hkbrpulz>Writing</a><a href="/projects" class data-astro-cid-hkbrpulz>Projects</a><a href="/ctf" class="active" data-astro-cid-hkbrpulz>CTF</a><a href="/travel" class data-astro-cid-hkbrpulz>Travel</a><a href="/about" class data-astro-cid-hkbrpulz>About</a></nav></div></div></header><main class="wrap " data-astro-cid-hkbrpulz><article class="ctf" data-astro-cid-77okxf7y><a class="back" href="/ctf" data-astro-cid-77okxf7y>← CTF</a><h1 data-astro-cid-77okxf7y>Ethernaut</h1><div class="meta" data-astro-cid-77okxf7y><span data-astro-cid-77okxf7y>Ethernaut</span><span data-astro-cid-77okxf7y>June 2025</span><span data-astro-cid-77okxf7y><a href="https://github.com/testoupr/ethernautSolutions" target="_blank" rel="noopener" data-astro-cid-77okxf7y>GitHub ↗</a></span></div><p><a href="https://ethernaut.openzeppelin.com/">Ethernaut</a> is OpenZeppelin’s smart-contract wargame. Each level hands you a vulnerable contract and you have to break it. I played through it for fun, and my attack contracts for each level I solved, up to and including <strong>GatekeeperOne</strong>, are in the repo.</p>
+<h2 id="levels">Levels</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Level</th><th>What I exploited</th></tr></thead><tbody><tr><td>Coin Flip</td><td>The “randomness” comes from <code>blockhash</code>, so a contract calling in the same block can predict it</td></tr><tr><td>Telephone</td><td>The contract checks <code>tx.origin</code> when it should check <code>msg.sender</code></td></tr><tr><td>Token</td><td>Unchecked integer underflow (pre-0.8 arithmetic)</td></tr><tr><td>Delegation</td><td><code>delegatecall</code> runs my code inside the victim’s storage</td></tr><tr><td>Force</td><td><code>selfdestruct</code> pushes ETH into a contract that has no <code>receive</code></td></tr><tr><td>Vault</td><td>“Private” storage can still be read on-chain</td></tr><tr><td>King</td><td>A receiver that reverts, so nobody can ever take the throne back</td></tr><tr><td>Re-entrancy</td><td>The contract makes the external call before it updates balances</td></tr><tr><td>Elevator</td><td>An interface that gives different answers to the same call</td></tr><tr><td>GatekeeperOne</td><td>Brute-forcing <code>gasleft() % 8191</code> and building a key out of type-casting rules</td></tr></tbody></table>
+<h2 id="gatekeeperone">GatekeeperOne</h2>
+<p>This was the last level I did. The third gate wants a <code>bytes8</code> key whose <code>uint32</code>, <code>uint16</code> and <code>uint64</code> truncations satisfy a chain of equalities tied to <code>tx.origin</code>. Masking my own address gives the key:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="solidity"><code><span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">bytes8</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> key </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> bytes8</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">uint64</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">uint160</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">address</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">msg.sender</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)))) </span><span style="color:#D73A49;--shiki-dark:#F97583">&amp;</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 0xFFFFFFFF0000FFFF</span><span style="color:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">bool</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> success,) </span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> gatekeeper.call{gas</span><span style="color:#D73A49;--shiki-dark:#F97583">:</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> gas}(</span><span style="color:#005CC5;--shiki-dark:#79B8FF">abi</span><span style="color:#24292E;--shiki-dark:#E1E4E8">.</span><span style="color:#6F42C1;--shiki-dark:#B392F0">encodeWithSignature</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(</span><span style="color:#032F62;--shiki-dark:#9ECBFF">&quot;enter(bytes8)&quot;</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, key));</span></span></code></pre>
+<p>The second gate needs <code>gasleft()</code> to be a multiple of 8191 at the moment it’s checked, so I swept the <code>gas</code> argument until a call went through.</p></article></main><footer class="site-footer" data-astro-cid-hkbrpulz><div class="wrap " data-astro-cid-hkbrpulz><span class="mono-label" data-astro-cid-hkbrpulz>Theo Estoup Ruiz</span><span class="links" data-astro-cid-hkbrpulz><a href="mailto:estoupruiztheo@gmail.com" data-astro-cid-hkbrpulz>Email</a><a href="https://github.com/testoupr" data-astro-cid-hkbrpulz>GitHub</a></span></div></footer></body></html>

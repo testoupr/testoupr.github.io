@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-hkbrpulz><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="A cheat-sheet post showing every formatting feature the site supports."><title>Formatting reference — Theo Estoup Ruiz</title><link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;◈&lt;/text&gt;&lt;/svg&gt;"><!-- GoatCounter analytics (cookieless; auto-skips localhost) --><script data-goatcounter="https://hermindo.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script><link rel="stylesheet" href="/_astro/Base.CoZSdVz5.css"><style>.back[data-astro-cid-ujoazszw]{font-family:var(--font-mono);color:var(--text-muted);border:none;font-size:.8rem}.post[data-astro-cid-ujoazszw] h1[data-astro-cid-ujoazszw]{margin:.6rem 0 .3rem}.meta[data-astro-cid-ujoazszw]{font-family:var(--font-mono);color:var(--text-muted);margin-bottom:2rem;font-size:.78rem;display:block}
+</style><style>pre[data-astro-cid-u73hla6m].mermaid{text-align:center;background:0 0;border:none;margin:1.4rem 0;padding:0;overflow-x:auto}
+</style></head><body data-astro-cid-hkbrpulz><header class="site-header" data-astro-cid-hkbrpulz><div class="wrap " data-astro-cid-hkbrpulz><div class="bar" data-astro-cid-hkbrpulz><a class="brand" href="/" data-astro-cid-hkbrpulz>Theo&nbsp;Estoup&nbsp;Ruiz</a><nav class="nav" data-astro-cid-hkbrpulz><a href="/writing" class="active" data-astro-cid-hkbrpulz>Writing</a><a href="/projects" class data-astro-cid-hkbrpulz>Projects</a><a href="/ctf" class data-astro-cid-hkbrpulz>CTF</a><a href="/travel" class data-astro-cid-hkbrpulz>Travel</a><a href="/about" class data-astro-cid-hkbrpulz>About</a></nav></div></div></header><main class="wrap " data-astro-cid-hkbrpulz><article class="post" data-astro-cid-ujoazszw><a class="back" href="/writing" data-astro-cid-ujoazszw>← Writing</a><h1 data-astro-cid-ujoazszw>Formatting reference</h1><time class="meta" data-astro-cid-ujoazszw>September 3, 2026</time>
+<p>Everything below is standard Markdown unless noted. Open this file
+(<code>src/content/posts/formatting-reference.mdx</code>) side-by-side with the rendered
+page to see how each piece maps.</p>
+<h2 id="headings--text">Headings &amp; text</h2>
+<p>Use <code>##</code> for section headings and <code>###</code> for subsections (the title above is the
+only <code>#</code>/h1). Inline you get <strong>bold</strong>, <em>italic</em>, <code>inline code</code>, and
+<a href="https://testoupr.github.io">links</a>. Separate paragraphs with a blank line.</p>
+<blockquote>
+<p>Blockquotes use a leading <code>&gt;</code>. Good for pull-quotes or noting an assumption.</p>
+</blockquote>
+<h2 id="lists">Lists</h2>
+<ul>
+<li>Bullet lists use <code>-</code></li>
+<li>Nest by indenting two spaces
+<ul>
+<li>like this</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>Numbered lists use <code>1.</code> <code>2.</code> …</li>
+<li>…and render in order</li>
+</ol>
+<h2 id="code">Code</h2>
+<p>Fenced blocks get syntax highlighting (Shiki, light/dark aware). Put the
+language after the opening fence:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="python"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">def</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> cooccurrence</span><span style="color:#24292E;--shiki-dark:#E1E4E8">(matrix):</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">    # keyword co-occurrence = D^T D</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">    return</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> matrix.T </span><span style="color:#D73A49;--shiki-dark:#F97583">@</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> matrix</span></span></code></pre>
+<h2 id="math">Math</h2>
+<p>Inline math with single dollars: the leakage is a vector <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>∈</mo><mo stretchy="false">{</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><msup><mo stretchy="false">}</mo><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">a \in \{0,1\}^n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2778em"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em"></span><span class="mord">1</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em"><span style="top:-3.063em;margin-right:0.05em"><span class="pstrut" style="height:2.7em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span>.
+Display math with double dollars on their own lines:</p>
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mrow><mi mathvariant="normal">C</mi><mi mathvariant="normal">o</mi></mrow><mo stretchy="false">(</mo><mi>D</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mi>D</mi><mi mathvariant="normal">⊤</mi></msup><mi>D</mi><mo separator="true">,</mo><mspace width="2em"></mspace><mi>D</mi><mo>∈</mo><mo stretchy="false">{</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><msup><mo stretchy="false">}</mo><mrow><mi>n</mi><mo>×</mo><mi>m</mi></mrow></msup><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">\mathrm{Co}(D) = D^\top D, \qquad D \in \{0,1\}^{n \times m}.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em"></span><span class="mord"><span class="mord mathrm">Co</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.0278em">D</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em"></span></span><span class="base"><span class="strut" style="height:1.0935em;vertical-align:-0.1944em"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0278em">D</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em"><span style="top:-3.113em;margin-right:0.05em"><span class="pstrut" style="height:2.7em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.0278em">D</span><span class="mpunct">,</span><span class="mspace" style="margin-right:2em"></span><span class="mspace" style="margin-right:0.1667em"></span><span class="mord mathnormal" style="margin-right:0.0278em">D</span><span class="mspace" style="margin-right:0.2778em"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em"></span></span><span class="base"><span class="strut" style="height:1.0713em;vertical-align:-0.25em"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em"></span><span class="mord">1</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8213em"><span style="top:-3.113em;margin-right:0.05em"><span class="pstrut" style="height:2.7em"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">×</span><span class="mord mathnormal mtight">m</span></span></span></span></span></span></span></span></span><span class="mord">.</span></span></span></span></span>
+<h2 id="tables">Tables</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Field</th><th style="text-align:center">Required</th><th>Notes</th></tr></thead><tbody><tr><td><code>title</code></td><td style="text-align:center">yes</td><td>Post heading + tab title</td></tr><tr><td><code>date</code></td><td style="text-align:center">yes</td><td><code>YYYY-MM-DD</code>, sorts the list</td></tr><tr><td><code>description</code></td><td style="text-align:center">no</td><td>Used for SEO / link previews</td></tr><tr><td><code>draft</code></td><td style="text-align:center">no</td><td><code>true</code> hides it from <code>/writing</code></td></tr></tbody></table>
+<h2 id="diagrams">Diagrams</h2>
+<p>Mermaid diagrams need the component imported at the top of the file
+(<code>import Mermaid from &quot;../../components/Mermaid.astro&quot;;</code> — see <code>sirap.mdx</code>),
+then:</p>
+<pre class="mermaid" data-astro-cid-u73hla6m>flowchart LR
+A[Write .mdx in src/content/posts/] --&gt; B[Push to main]
+B --&gt; C[GitHub Actions builds]
+C --&gt; D[Live on testoupr.github.io]
+</pre><script type="module" src="/_astro/Mermaid.astro_astro_type_script_index_0_lang.DfYxIk_P.js"></script>
+<h2 id="images">Images</h2>
+<p>Put files under <code>public/</code> and reference them from the site root. For example an
+image at <code>public/trips/headshot.jpeg</code> is written as:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8;overflow-x:auto;white-space:pre-wrap;word-wrap:break-word" tabindex="0" data-language="md"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">![</span><span style="color:#032F62;--shiki-light-text-decoration:underline;--shiki-dark:#DBEDFF;--shiki-dark-text-decoration:underline">Alt text describing the image</span><span style="color:#24292E;--shiki-dark:#E1E4E8">](</span><span style="color:#24292E;--shiki-light-text-decoration:underline;--shiki-dark:#E1E4E8;--shiki-dark-text-decoration:underline">/trips/headshot.jpeg</span><span style="color:#24292E;--shiki-dark:#E1E4E8">)</span></span></code></pre>
+<hr/>
+<p><strong>To publish a real post:</strong> copy this file to <code>src/content/posts/my-post.md</code>
+(plain Markdown is fine — drop the <code>.mdx</code>/<code>&lt;Mermaid&gt;</code> bits if you don’t need
+diagrams), set <code>draft: false</code>, edit the frontmatter, write, and push to <code>main</code>.
+It appears at <code>/writing/my-post</code>.</p></article></main><footer class="site-footer" data-astro-cid-hkbrpulz><div class="wrap " data-astro-cid-hkbrpulz><span class="mono-label" data-astro-cid-hkbrpulz>Theo Estoup Ruiz</span><span class="links" data-astro-cid-hkbrpulz><a href="mailto:estoupruiztheo@gmail.com" data-astro-cid-hkbrpulz>Email</a><a href="https://github.com/testoupr" data-astro-cid-hkbrpulz>GitHub</a></span></div></footer></body></html>
